@@ -1,4 +1,4 @@
-namespace EVChonnectService.Models
+namespace EVConnectService.Models
 {
     public class User
     {

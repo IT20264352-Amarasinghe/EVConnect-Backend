@@ -132,3 +132,13 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
+# Ignore common build and temporary directories and files
+bin/
+obj/
+Debug/
+Release/
+
+# Ignore specific build artifacts
+*.dll
+*.pdb
+*.cache
