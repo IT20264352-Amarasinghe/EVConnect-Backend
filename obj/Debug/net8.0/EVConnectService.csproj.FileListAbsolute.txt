@@ -31,3 +31,4 @@ D:\Projects\EVConnect\EVConnectService\obj\Debug\net8.0\refint\EVConnectService.
 D:\Projects\EVConnect\EVConnectService\obj\Debug\net8.0\EVConnectService.pdb
 D:\Projects\EVConnect\EVConnectService\obj\Debug\net8.0\EVConnectService.genruntimeconfig.cache
 D:\Projects\EVConnect\EVConnectService\obj\Debug\net8.0\ref\EVConnectService.dll
+D:\Projects\EVConnect\EVConnectService\obj\Debug\net8.0\EVConnectService.sourcelink.json
