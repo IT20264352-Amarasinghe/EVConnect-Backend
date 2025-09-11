@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "FVAlRTkD0OMH6PwOptNWTHFSBJRMdDDtopoz8r+6itE=",
+  "Source": "EVConnectService",
+  "BasePath": "_content/EVConnectService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

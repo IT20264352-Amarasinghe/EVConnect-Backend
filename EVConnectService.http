@@ -1,0 +1,6 @@
+@EVConnectService_HostAddress = http://localhost:5115
+
+GET {{EVConnectService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
