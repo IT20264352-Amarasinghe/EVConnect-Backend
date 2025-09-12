@@ -1,9 +1,14 @@
+using EVConnectService.Data;
+using EVConnectService.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Register MongoDbContext and UserService
+builder.Services.AddSingleton<MongoDbContext>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 
