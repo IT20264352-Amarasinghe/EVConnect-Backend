@@ -52,11 +52,7 @@ public class TokenService
         return new
         {
             // Serialize the token object into a string.
-            Token = tokenHandler.WriteToken(token),
-            // Return the expiration time of the token.
-            Expiration = token.ValidTo,
-            // Return selected user details.
-            User = new { user.NIC, user.Name, user.Email }
+            Token = tokenHandler.WriteToken(token)
         };
     }
 }

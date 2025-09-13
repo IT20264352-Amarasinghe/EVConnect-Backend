@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using EVConnectService.Models.Dtos;
 
 namespace EVConnectService.Controllers
 {
@@ -44,15 +45,20 @@ namespace EVConnectService.Controllers
         // This method handles HTTP POST requests to the "api/users/login" endpoint.
         [HttpPost("login")]
         // The [FromBody] attribute tells the framework to deserialize the request body into a User object.
-        public IActionResult Login([FromBody] User loginUser)
+        public IActionResult Login([FromBody] RegisterRequest request)
         {
             // Finds the first user in the list that matches both the provided NIC and Password.
             // FirstOrDefault returns null if no match is found.
-            var user = _userService.GetByNIC(loginUser.NIC);
+            var user = _userService.GetByNIC(request.NIC);
 
             // If the user object is null, it means no match was found.
             if (user == null)
                 // Return a 401 Unauthorized status with a message.
+                return Unauthorized("Invalid credentials");
+
+            // Verify the password using BCrypt
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            if (!isPasswordValid)
                 return Unauthorized("Invalid credentials");
 
             // Generate JWT token
