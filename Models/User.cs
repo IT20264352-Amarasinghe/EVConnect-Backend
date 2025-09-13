@@ -6,16 +6,16 @@ namespace EVConnectService.Models
     {
         [BsonId]  // This replaces MongoDB's _id with NIC
         [BsonElement("_id")]
-        public string NIC { get; set; }
+        public required string NIC { get; set; }
 
         [BsonElement("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
-         [BsonElement("email")]
-        public string Email { get; set; }
+        [BsonElement("email")]
+        public required string Email { get; set; }
 
         [BsonElement("password")]
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
         [BsonElement("isActive")]
         public bool IsActive { get; set; } = true;

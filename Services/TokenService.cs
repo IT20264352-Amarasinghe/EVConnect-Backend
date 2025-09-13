@@ -20,7 +20,10 @@ public class TokenService
         // Create a token handler to manage JWTs
         var tokenHandler = new JwtSecurityTokenHandler();
         // Retrieve the secret key from the application's configuration and convert it to a byte array.
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+        var keyString = _configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("JWT Key is missing in configuration.");
+
+        var key = Encoding.UTF8.GetBytes(keyString);
 
         // Define the token's properties using a SecurityTokenDescriptor.
         var tokenDescriptor = new SecurityTokenDescriptor
