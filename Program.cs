@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 // Register MongoDbContext and UserService
 builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<TokenService>();
 
 // Add Authentication
 builder.Services.AddAuthentication(options =>

@@ -17,12 +17,13 @@ namespace EVConnectService.Controllers
 
         private readonly UserService _userService;
 
-        private readonly IConfiguration _configuration;
+        private readonly TokenService _tokenService;
 
-        public UsersController(IConfiguration configuration, UserService userService)
+
+        public UsersController(UserService userService, TokenService tokenService)
         {
-            _configuration = configuration;
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         // This method handles HTTP POST requests to the "api/users/register" endpoint.
@@ -54,32 +55,11 @@ namespace EVConnectService.Controllers
                 // Return a 401 Unauthorized status with a message.
                 return Unauthorized("Invalid credentials");
 
-            // Generate JWT
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+            // Generate JWT token
+            var tokenResult = _tokenService.GenerateToken(user);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-              {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim("NIC", user.NIC),
-            new Claim(ClaimTypes.Email, user.Email)
-        }),
-                Expires = DateTime.UtcNow.AddHours(2),
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new
-            {
-                Token = tokenHandler.WriteToken(token),
-                Expiration = token.ValidTo,
-                User = new { user.NIC, user.Name, user.Email }
-            });
+            // Return token + user info
+            return Ok(tokenResult);
         }
 
         // This method handles HTTP PUT requests
