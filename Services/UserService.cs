@@ -35,7 +35,5 @@ namespace EVConnectService.Services
             }
         }
 
-        public User Login(string nic, string password) =>
-            _context.Users.Find(u => u.NIC == nic && u.Password == password).FirstOrDefault();
     }
 }
