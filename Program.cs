@@ -49,6 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.Urls.Add("http://0.0.0.0:5115");
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseAuthentication();
