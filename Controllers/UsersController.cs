@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using EVConnectService.Models;
 using EVConnectService.Services;
-using System.Security.Claims;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 using EVConnectService.Models.Dtos;
 
 namespace EVConnectService.Controllers
@@ -33,8 +29,14 @@ namespace EVConnectService.Controllers
         {
             // Checks if a user with the same NIC already exists
             if (_userService.GetByNIC(newUser.NIC) != null)
-                // If a duplicate is found, return a 400 Bad Request with a message.
-                return BadRequest("User with this NIC already exists.");
+            {
+                var error = new ErrorResponse
+                {
+                    Message = "User with this NIC already exists.",
+                    Code = "USER_EXISTS"
+                };
+                return BadRequest(error);
+            }
 
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
             var createdUser = _userService.Create(newUser);
@@ -53,13 +55,28 @@ namespace EVConnectService.Controllers
 
             // If the user object is null, it means no match was found.
             if (user == null)
+            {
+                var error = new ErrorResponse
+                {
+                    Message = "Invalid Username",
+                    Code = "Invalid_Credentials"
+                };
                 // Return a 401 Unauthorized status with a message.
-                return Unauthorized("Invalid credentials");
+                return Unauthorized(error);
+            }
 
             // Verify the password using BCrypt
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
             if (!isPasswordValid)
-                return Unauthorized("Invalid credentials");
+            {
+                var error = new ErrorResponse
+                {
+                    Message = "Invalid Password",
+                    Code = "Invalid_Credentials"
+                };
+                // Return a 401 Unauthorized status with a message.
+                return Unauthorized(error);
+            }
 
             // Generate JWT token
             var tokenResult = _tokenService.GenerateToken(user);

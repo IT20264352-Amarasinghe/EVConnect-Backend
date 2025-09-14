@@ -14,6 +14,9 @@ namespace EVConnectService.Models
         [BsonElement("email")]
         public required string Email { get; set; }
 
+        [BsonElement("phone")]
+        public required string Phone { get; set; }
+
         [BsonElement("password")]
         public required string Password { get; set; }
 
