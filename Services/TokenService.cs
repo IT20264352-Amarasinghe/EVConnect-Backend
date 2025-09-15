@@ -34,7 +34,8 @@ public class TokenService
             {
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("NIC", user.NIC),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             }),
             // Set the token's expiration time to 2 hours from the current UTC time.
             Expires = DateTime.UtcNow.AddHours(2),
