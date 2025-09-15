@@ -18,6 +18,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddSingleton<ChargerService>();
+builder.Services.AddSingleton<BookingService>();
 
 // Add Authentication
 builder.Services.AddAuthentication(options =>

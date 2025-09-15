@@ -18,5 +18,11 @@ namespace EVConnectService.Data
 
         public IMongoCollection<User> Users =>
             _database.GetCollection<User>("Users");
+
+        public IMongoCollection<Charger> Chargers =>
+         _database.GetCollection<Charger>("Chargers");
+
+        public IMongoCollection<Booking> Bookings =>
+            _database.GetCollection<Booking>("Bookings");
     }
 }
