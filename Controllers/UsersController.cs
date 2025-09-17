@@ -9,7 +9,7 @@ namespace EVConnectService.Controllers
     [ApiController]
     // Defines the base route for all endpoints in this controller.
     [Route("api/users")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
 
         private readonly UserService _userService;
@@ -29,14 +29,8 @@ namespace EVConnectService.Controllers
         {
             // Checks if a user with the same NIC already exists
             if (_userService.GetByNIC(newUser.NIC) != null)
-            {
-                var error = new ErrorResponse
-                {
-                    Message = "User with this NIC already exists.",
-                    Code = "USER_EXISTS"
-                };
-                return BadRequest(error);
-            }
+                return BadRequestError("User with this NIC already exists.");
+
 
             newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
             var createdUser = _userService.Create(newUser);
@@ -55,28 +49,12 @@ namespace EVConnectService.Controllers
 
             // If the user object is null, it means no match was found.
             if (user == null)
-            {
-                var error = new ErrorResponse
-                {
-                    Message = "Invalid Username",
-                    Code = "Invalid_Credentials"
-                };
-                // Return a 401 Unauthorized status with a message.
-                return Unauthorized(error);
-            }
+                return UnauthorizedError("Invalid Username");
 
             // Verify the password using BCrypt
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
             if (!isPasswordValid)
-            {
-                var error = new ErrorResponse
-                {
-                    Message = "Invalid Password",
-                    Code = "Invalid_Credentials"
-                };
-                // Return a 401 Unauthorized status with a message.
-                return Unauthorized(error);
-            }
+                return UnauthorizedError("Invalid Password");
 
             // Generate JWT token
             var tokenResult = _tokenService.GenerateToken(user);

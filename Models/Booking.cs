@@ -23,5 +23,5 @@ public class Booking
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     [BsonElement("status")]
-    public string Status { get; set; } = "Active"; // Active, Cancelled, Updated
+    public string? Status { get; set; } = "Active"; // Active, Cancelled, Updated
 }

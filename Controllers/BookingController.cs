@@ -6,7 +6,7 @@ namespace EVConnectService.Controllers
 {
     [ApiController]
     [Route("api/bookings")]
-    public class BookingController : ControllerBase
+    public class BookingController : BaseController
     {
         private readonly BookingService _bookingService;
         private readonly ChargerService _chargerService;
@@ -22,11 +22,16 @@ namespace EVConnectService.Controllers
         public IActionResult CreateBooking([FromBody] Booking request)
         {
             var charger = _chargerService.GetByCode(request.ChargerCode);
-            if (charger == null) return NotFound("Charger not found");
+            if (charger == null)
+                return NotFoundError("Charger not found.");
+
 
             var slot = charger.Slots.FirstOrDefault(s => s.Id == request.SlotId);
-            if (slot == null) return NotFound("Slot not found");
-            if (slot.Status != "Available") return BadRequest("Slot not available");
+            if (slot == null)
+                return NotFoundError("Slot not found.");
+
+            if (slot.Status != "Available")
+                return NotFoundError("Slot not available.");
 
             slot.Status = "Booked";
             _chargerService.Update(charger);
@@ -50,21 +55,21 @@ namespace EVConnectService.Controllers
         public IActionResult UpdateBooking(string id, [FromBody] Booking updateRequest)
         {
             var booking = _bookingService.GetById(id);
-            if (booking == null) return NotFound("Booking not found");
+            if (booking == null) return NotFoundError("Booking not found");
 
             var charger = _chargerService.GetByCode(booking.ChargerCode);
             var slot = charger.Slots.FirstOrDefault(s => s.Id == booking.SlotId);
 
-            if (slot == null) return NotFound("Slot not found");
+            if (slot == null) return NotFoundError("Slot not found");
 
             if ((slot.StartTime - DateTime.UtcNow).TotalHours < 12)
-                return BadRequest("Cannot update less than 12h before start");
+                return BadRequestError("Cannot update less than 12h before start");
 
             slot.Status = "Available";
 
             var newSlot = charger.Slots.FirstOrDefault(s => s.Id == updateRequest.SlotId);
             if (newSlot == null || newSlot.Status != "Available")
-                return BadRequest("New slot not available");
+                return BadRequestError("New slot not available");
 
             newSlot.Status = "Booked";
             booking.SlotId = updateRequest.SlotId;
@@ -82,15 +87,15 @@ namespace EVConnectService.Controllers
         public IActionResult CancelBooking(string id)
         {
             var booking = _bookingService.GetById(id);
-            if (booking == null) return NotFound("Booking not found");
+            if (booking == null) return NotFoundError("Booking not found");
 
             var charger = _chargerService.GetByCode(booking.ChargerCode);
             var slot = charger.Slots.FirstOrDefault(s => s.Id == booking.SlotId);
 
-            if (slot == null) return NotFound("Slot not found");
+            if (slot == null) return NotFoundError("Slot not found");
 
             if ((slot.StartTime - DateTime.UtcNow).TotalHours < 12)
-                return BadRequest("Cannot cancel less than 12h before start");
+                return BadRequestError("Cannot cancel less than 12h before start");
 
             slot.Status = "Available";
             booking.Status = "Cancelled";
