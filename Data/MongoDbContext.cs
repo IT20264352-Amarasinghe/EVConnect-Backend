@@ -14,6 +14,11 @@ namespace EVConnectService.Data
             var databaseName = config["MongoDB:DatabaseName"];
             var client = new MongoClient(connectionString);
             _database = client.GetDatabase(databaseName);
+            // Ensure unique index on Charger.Code
+            var chargerIndexKeys = Builders<Charger>.IndexKeys.Ascending(c => c.Code);
+            var chargerIndexOptions = new CreateIndexOptions { Unique = true };
+            var chargerIndexModel = new CreateIndexModel<Charger>(chargerIndexKeys, chargerIndexOptions);
+            Chargers.Indexes.CreateOne(chargerIndexModel);
         }
 
         public IMongoCollection<User> Users =>
@@ -24,5 +29,7 @@ namespace EVConnectService.Data
 
         public IMongoCollection<Booking> Bookings =>
             _database.GetCollection<Booking>("Bookings");
+
+        public IMongoCollection<Slot> Slots => _database.GetCollection<Slot>("Slots");
     }
 }

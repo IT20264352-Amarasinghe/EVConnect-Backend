@@ -20,6 +20,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddSingleton<ChargerService>();
 builder.Services.AddSingleton<BookingService>();
+builder.Services.AddSingleton<SlotService>();
 
 // Add Authentication
 builder.Services.AddAuthentication(options =>

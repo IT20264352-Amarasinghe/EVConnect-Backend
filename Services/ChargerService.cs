@@ -19,6 +19,9 @@ namespace EVConnectService.Services
         public Charger GetByCode(string code) =>
             _context.Chargers.Find(c => c.Code == code).FirstOrDefault();
 
+        public Charger GetById(string id) =>
+        _context.Chargers.Find(s => s.Id == id).FirstOrDefault();
+
         public Charger Create(Charger charger)
         {
             _context.Chargers.InsertOne(charger);

@@ -10,8 +10,9 @@ public class Booking
     [BsonElement("customerNic")]
     public required string CustomerNic { get; set; }
 
-    [BsonElement("chargerCode")]
-    public required string ChargerCode { get; set; }
+    [BsonElement("chargerId")]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public required string ChargerId { get; set; }
 
     [BsonElement("slotId")]
     public required string SlotId { get; set; }

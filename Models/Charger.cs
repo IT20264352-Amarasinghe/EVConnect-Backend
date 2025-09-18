@@ -13,6 +13,4 @@ public class Charger
     [BsonElement("location")]
     public required string Location { get; set; }
 
-    [BsonElement("slots")]
-    public List<Slot> Slots { get; set; } = new();
 }

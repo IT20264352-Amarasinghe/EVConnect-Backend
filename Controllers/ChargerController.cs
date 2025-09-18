@@ -22,6 +22,15 @@ namespace EVConnectService.Controllers
             return Ok(_chargerService.GetAll());
         }
 
+        // GET: api/chargers/id/{id}
+        [HttpGet("id/{id}")]
+        public IActionResult GetChargerById(string id)
+        {
+            var charger = _chargerService.GetById(id);
+            if (charger == null) return NotFound("Charger not found");
+            return Ok(charger);
+        }
+
         // GET: api/chargers/{code}
         [HttpGet("{code}")]
         public IActionResult GetChargerByCode(string code)
@@ -31,21 +40,23 @@ namespace EVConnectService.Controllers
             return Ok(charger);
         }
 
-        // GET: api/chargers/{code}/slots
-        [HttpGet("{code}/slots")]
-        public IActionResult GetSlotsByCharger(string code)
-        {
-            var charger = _chargerService.GetByCode(code);
-            if (charger == null) return NotFound("Charger not found");
-            return Ok(charger.Slots);
-        }
-
         // POST: api/chargers
         [HttpPost]
         public IActionResult CreateCharger([FromBody] Charger charger)
         {
             _chargerService.Create(charger);
             return Ok(charger);
+        }
+
+        // POST: api/chargers/batch
+        [HttpPost("batch")]
+        public IActionResult CreateChargers([FromBody] List<Charger> chargers)
+        {
+            foreach (var charger in chargers)
+            {
+                _chargerService.Create(charger);
+            }
+            return Ok(chargers);
         }
     }
 }
