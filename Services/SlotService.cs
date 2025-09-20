@@ -13,6 +13,13 @@ namespace EVConnectService.Services
             _context = context;
         }
 
+        public List<Slot> GetAllSlotsByCharger(string chargerId) =>
+    _context.Slots
+        .Find(s => s.ChargerId == chargerId)
+        .SortBy(s => s.Date)
+        .ThenBy(s => s.StartTime)
+        .ToList();
+
         public List<Slot> GetSlotsByChargerAndDate(string chargerId, DateTime date) =>
             _context.Slots
                 .Find(s => s.ChargerId == chargerId && s.Date == date.Date)

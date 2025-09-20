@@ -14,15 +14,23 @@ public class SlotsController : BaseController
 
     // GET api/slots/{chargerId}?date=2025-09-18
     [HttpGet("{chargerId}")]
-    public IActionResult GetSlots(string chargerId, [FromQuery] DateTime date)
+    public IActionResult GetSlots(string chargerId, [FromQuery] DateTime? date)
     {
-        var slots = _slotService.GetSlotsByChargerAndDate(chargerId, date);
+        List<Slot> slots;
 
-        if (slots == null || !slots.Any())
-            return NotFoundError("No slots found for this charger and date.");
+        if (date.HasValue)
+        {
+            slots = _slotService.GetSlotsByChargerAndDate(chargerId, date.Value);
+        }
+        else
+        {
+            slots = _slotService.GetAllSlotsByCharger(chargerId);
+        }
 
-        return Ok(slots);
+        // Always return 200 OK, even if empty
+        return Ok(slots ?? new List<Slot>());
     }
+
 
     // POST api/slots
     [HttpPost]
