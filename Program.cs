@@ -22,6 +22,18 @@ builder.Services.AddSingleton<ChargerService>();
 builder.Services.AddSingleton<BookingService>();
 builder.Services.AddSingleton<SlotService>();
 
+//CORS service
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Add Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -55,6 +67,7 @@ if (app.Environment.IsDevelopment())
 app.Urls.Add("http://0.0.0.0:5115");
 app.MapControllers();
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
