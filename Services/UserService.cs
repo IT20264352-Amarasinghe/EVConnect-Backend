@@ -19,6 +19,9 @@ namespace EVConnectService.Services
         public User GetByNIC(string nic) =>
             _context.Users.Find(u => u.NIC == nic).FirstOrDefault();
 
+        public User GetByEMAIL(string email) =>
+      _context.Users.Find(u => u.Email == email).FirstOrDefault();
+
         public User Create(User user)
         {
             _context.Users.InsertOne(user);

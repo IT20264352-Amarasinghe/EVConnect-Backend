@@ -63,6 +63,33 @@ namespace EVConnectService.Controllers
             return Ok(tokenResult);
         }
 
+        // This method handles HTTP POST requests to the "api/users/login" endpoint.
+        [HttpPost("admin/login")]
+        // The [FromBody] attribute tells the framework to deserialize the request body into a User object.
+        public IActionResult AdminLogin([FromBody] RegisterRequestAdmin request)
+        {
+            // Finds the first user in the list that matches both the provided NIC and Password.
+            // FirstOrDefault returns null if no match is found.
+            var user = _userService.GetByEMAIL(request.Email);
+
+            // If the user object is null, it means no match was found.
+            if (user == null)
+                return UnauthorizedError("Invalid Username");
+            if(user.Role != "admin")
+                return UnauthorizedError("Invaild Role");
+
+            // Verify the password using BCrypt
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            if (!isPasswordValid)
+                return UnauthorizedError("Invalid Password");
+
+            // Generate JWT token
+            var tokenResult = _tokenService.GenerateToken(user);
+
+            // Return token + user info
+            return Ok(tokenResult);
+        }
+
         // This method handles HTTP PUT requests
         // The "{nic}" is a route parameter that captures the NIC from the URL.
         [HttpPut("deactivate/{nic}")]
