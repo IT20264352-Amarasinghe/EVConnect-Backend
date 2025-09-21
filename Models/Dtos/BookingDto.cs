@@ -2,10 +2,10 @@
 public class BookingDto
 {
     public string? Id { get; set; }
-    public string CustomerNic { get; set; }
-    public Charger Charger { get; set; }
-    public Slot Slot { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public string Status { get; set; }
+    public required string CustomerNic { get; set; }
+    public required Charger Charger { get; set; }
+    public required Slot Slot { get; set; }
+    public required DateTime CreatedAt { get; set; }
+    public required DateTime UpdatedAt { get; set; }
+    public required string Status { get; set; }
 }

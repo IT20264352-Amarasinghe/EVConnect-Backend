@@ -47,8 +47,17 @@ namespace EVConnectService.Controllers
                 Status = "Active"
             };
 
-            _bookingService.Create(booking);
-            return Ok(booking);
+            Booking createdBooking = _bookingService.Create(booking);
+            var bookingDto = new BookingDto
+            {
+                CustomerNic = createdBooking.CustomerNic,
+                Charger = _chargerService.GetById(createdBooking.ChargerId),
+                Slot = _slotService.GetById(createdBooking.SlotId),
+                CreatedAt = createdBooking.CreatedAt,
+                UpdatedAt = createdBooking.UpdatedAt,
+                Status = createdBooking.Status
+            };
+            return Ok(bookingDto);
         }
 
         // GET api/bookings?customerNic=123456789V
