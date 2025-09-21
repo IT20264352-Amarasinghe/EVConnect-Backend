@@ -16,6 +16,9 @@ namespace EVConnectService.Services
         public List<Booking> GetAll() =>
             _context.Bookings.Find(_ => true).ToList();
 
+        public List<Booking> GetByCustomerNic(string customerNic) =>
+_context.Bookings.Find(b => b.CustomerNic == customerNic).ToList();
+
         public Booking GetById(string id) =>
             _context.Bookings.Find(b => b.Id == id).FirstOrDefault();
 

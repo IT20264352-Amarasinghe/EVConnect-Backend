@@ -51,6 +51,36 @@ namespace EVConnectService.Controllers
             return Ok(booking);
         }
 
+        // GET api/bookings?customerNic=123456789V
+        [HttpGet]
+        public IActionResult GetBookings([FromQuery] string? customerNic)
+        {
+            List<Booking> bookings;
+
+            if (!string.IsNullOrEmpty(customerNic))
+            {
+                bookings = _bookingService.GetByCustomerNic(customerNic);
+            }
+            else
+            {
+                bookings = _bookingService.GetAll();
+            }
+
+            // Map to DTOs with charger & slot details
+            var bookingDtos = bookings.Select(b => new BookingDto
+            {
+                Id = b.Id,
+                CustomerNic = b.CustomerNic,
+                Charger = _chargerService.GetById(b.ChargerId),
+                Slot = _slotService.GetById(b.SlotId),
+                CreatedAt = b.CreatedAt,
+                UpdatedAt = b.UpdatedAt,
+                Status = b.Status
+            }).ToList();
+
+            return Ok(bookingDtos);
+        }
+
         // PUT: api/bookings/{id}
         [HttpPut("{id}")]
         public IActionResult UpdateBooking(string id, [FromBody] Booking updateRequest)
