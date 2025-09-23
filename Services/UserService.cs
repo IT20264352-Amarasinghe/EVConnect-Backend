@@ -38,5 +38,8 @@ namespace EVConnectService.Services
             }
         }
 
+        public List<User> GetCustomers() =>
+    _context.Users.Find(u => u.Role.ToLower() == "customer").ToList();
+
     }
 }

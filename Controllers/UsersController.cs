@@ -36,5 +36,24 @@ namespace EVConnectService.Controllers
             // Return a 200 OK status with the updated user object.
             return Ok($"User {nic} deactivated.");
         }
+
+        [HttpGet("customers")]
+        public IActionResult GetCustomers()
+        {
+            var customers = _userService.GetCustomers();
+
+            // Map to DTO (exclude password)
+            var customerDtos = customers.Select(u => new UserDto
+            {
+                NIC = u.NIC,
+                Name = u.Name,
+                Email = u.Email,
+                Phone = u.Phone,
+                Role = u.Role,
+                IsActive = u.IsActive
+            }).ToList();
+
+            return Ok(customerDtos);
+        }
     }
 }
