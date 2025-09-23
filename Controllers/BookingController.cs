@@ -1,10 +1,12 @@
 using EVConnectService.Models;
 using EVConnectService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EVConnectService.Controllers
 {
     [ApiController]
+    [Authorize] // requires valid JWT
     [Route("api/bookings")]
     public class BookingController : BaseController
     {
