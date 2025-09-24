@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
+// this is used to send customized responce for 404, 400, 401, 500
 public abstract class BaseController : ControllerBase
 {
     // 404 Not Found

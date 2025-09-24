@@ -37,6 +37,7 @@ namespace EVConnectService.Controllers
             return Ok($"User {nic} deactivated.");
         }
 
+        // this end-point return all the customers
         [HttpGet("customers")]
         public IActionResult GetCustomers()
         {

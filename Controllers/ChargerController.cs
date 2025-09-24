@@ -3,6 +3,7 @@ using EVConnectService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+// the charger related end-points
 namespace EVConnectService.Controllers
 {
     [ApiController]

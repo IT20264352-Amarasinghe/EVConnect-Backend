@@ -4,6 +4,7 @@ using System.Text;
 using EVConnectService.Models;
 using Microsoft.IdentityModel.Tokens;
 
+// Service class for managing Token slots.
 public class TokenService
 {
     private readonly IConfiguration _configuration;

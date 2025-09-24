@@ -1,5 +1,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 
+// this contain all the attribute for User
 namespace EVConnectService.Models
 {
     public class User

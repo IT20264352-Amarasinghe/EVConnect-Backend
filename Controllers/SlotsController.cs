@@ -2,6 +2,7 @@ using EVConnectService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+// All the slots related end-points
 [ApiController]
 [Authorize] // requires valid JWT
 [Route("api/slots")]

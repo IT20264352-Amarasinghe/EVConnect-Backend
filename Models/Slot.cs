@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
+// this contain all the attribute for Slots
 public class Slot
 {
     [BsonId]

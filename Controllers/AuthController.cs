@@ -3,6 +3,7 @@ using EVConnectService.Models;
 using EVConnectService.Services;
 using EVConnectService.Models.Dtos;
 
+// All authentication related end-points
 namespace EVConnectService.Controllers
 {
     // Indicates that this class is an API controller.
@@ -66,7 +67,7 @@ namespace EVConnectService.Controllers
         // This method handles HTTP POST requests to the "api/users/login" endpoint.
         [HttpPost("admin/login")]
         // The [FromBody] attribute tells the framework to deserialize the request body into a User object.
-        public IActionResult AdminLogin([FromBody] RegisterRequestAdmin request)
+        public IActionResult AdminLogin([FromBody] LoginRequestAdmin request)
         {
             // Finds the first user in the list that matches both the provided NIC and Password.
             // FirstOrDefault returns null if no match is found.

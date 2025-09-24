@@ -3,6 +3,7 @@ using EVConnectService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+// all booking relared end-points
 namespace EVConnectService.Controllers
 {
     [ApiController]
